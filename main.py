@@ -48,17 +48,20 @@ def get_rol_col_from_pos(pos):
 run = True
 clock = pygame.time.Clock()
 gird = init_grid(ROWS, COLS, BACKGROUND_COLOR)
+color = [BLUE, GREEN, RED, BLACK, YELLOW, PURPLE, PINK, AQUA, SILVER, ORANGE]
 
-button_y_pos = SCREEN_HEIGHT - abs(SCREEN_HEIGHT - SCREEN_WIDTH) * 3 / 4
-button_width = button_height = 50
-button_x_pos = np.arange(0, SCREEN_WIDTH, 5 + button_width)
-buttons = [BUTTON(button_x_pos[0], button_y_pos, button_width, button_height, BLUE),
-           BUTTON(button_x_pos[1], button_y_pos, button_width, button_height, GREEN),
-           BUTTON(button_x_pos[2], button_y_pos, button_width, button_height, RED),
-           BUTTON(button_x_pos[3], button_y_pos, button_width, button_height, BLACK),
-           BUTTON(button_x_pos[4], button_y_pos, button_width, button_height, WHITE, 'Eraser'),
-           BUTTON(button_x_pos[5], button_y_pos, button_width, button_height, WHITE, 'Clear'),
-           ]
+button_width = button_height = 25
+button_y_pos = SCREEN_HEIGHT - abs(SCREEN_HEIGHT - SCREEN_WIDTH)* 3 /4
+button_x_pos = np.arange(0, SCREEN_WIDTH, button_width)
+buttons = []
+for i in range(len(color)):
+    button = BUTTON(button_x_pos[i], button_y_pos, button_width, button_height, color[i])
+    buttons.append(button)
+
+buttons.append(BUTTON(0, button_y_pos+button_height, button_width*2, button_height*2, WHITE, 'Clear'))
+buttons.append(BUTTON(button_width*2 + 2, button_y_pos+button_height, button_width*2, button_height*2, WHITE, 'Eraserr'))
+
+
 
 
 def main():

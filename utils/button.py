@@ -15,10 +15,10 @@ class BUTTON:
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
-        # Draw outline
-        pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height), 2)
 
         if self.text:
+            # Draw outline[
+            pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height), 2)
             display_text(screen,self.text, self.rect.center[0], self.rect.center[1], size=12)
 
     def clicked(self, pos):
