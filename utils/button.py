@@ -1,3 +1,4 @@
+
 from .setting import *
 
 
@@ -10,15 +11,20 @@ class BUTTON:
         self.color = color
         self.text = text
         self.text_color = text_color
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(screen, self.color, self.rect)
         # Draw outline
         pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height), 2)
 
         if self.text:
-            text_surface, text_rect = display_text(self.text, self.x, self.y, size=22)
-            screen.blit(text_surface, text_rect)
+            display_text(screen,self.text, self.rect.center[0], self.rect.center[1], size=12)
 
     def clicked(self, pos):
-        pass
+        x, y = pos
+        if not self.x <= x <= self.x + self.width:
+            return False
+        if not self.y <= y <= self.y + self.height:
+            return False
+        return True

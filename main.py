@@ -31,7 +31,8 @@ def draw_gird(screen, gird_):
 def draw(screen):
     screen.fill(BACKGROUND_COLOR)
     draw_gird(screen, gird)
-    button.draw(screen)
+    for button_ in buttons:
+        button_.draw(screen)
     pygame.display.update()
 
 
@@ -47,11 +48,21 @@ def get_rol_col_from_pos(pos):
 run = True
 clock = pygame.time.Clock()
 gird = init_grid(ROWS, COLS, BACKGROUND_COLOR)
-drawing_color = BLACK
-button = BUTTON(10, 600, 50, 50, BLUE, "Button")
+
+button_y_pos = SCREEN_HEIGHT - abs(SCREEN_HEIGHT - SCREEN_WIDTH) * 3 / 4
+button_width = button_height = 50
+button_x_pos = np.arange(0, SCREEN_WIDTH, 5 + button_width)
+buttons = [BUTTON(button_x_pos[0], button_y_pos, button_width, button_height, BLUE),
+           BUTTON(button_x_pos[1], button_y_pos, button_width, button_height, GREEN),
+           BUTTON(button_x_pos[2], button_y_pos, button_width, button_height, RED),
+           BUTTON(button_x_pos[3], button_y_pos, button_width, button_height, BLACK),
+           BUTTON(button_x_pos[4], button_y_pos, button_width, button_height, WHITE, 'Eraser'),
+           BUTTON(button_x_pos[5], button_y_pos, button_width, button_height, WHITE, 'Clear'),
+           ]
 
 
 def main():
+    drawing_color = BLACK
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,10 +75,15 @@ def main():
                     row, col = get_rol_col_from_pos(pos)
                     gird[row, col] = drawing_color
                 except IndexError:
-                    pass
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c:
-                    gird.fill(WHITE)
+                    for button_ in buttons:
+                        if not button_.clicked(pos):
+                            continue
+                        drawing_color = button_.color
+                        if button_.text == "Clear":
+                            gird.fill(WHITE)
+                        elif button_.text == "Eraser":
+                            drawing_color = WHITE
+                        break
 
         draw(SCREEN)
 
